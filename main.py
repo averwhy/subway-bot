@@ -2,14 +2,15 @@ import discord
 import aiohttp
 import time
 import sqlite3
-import re, os
+import re, os, sys
 from discord.ext import commands
+print("discord.py, version",discord.__version__)
+print("sys version",sys.version_info)
 
 TOKEN = ''
 userid = ''
 version = 'v1.1'
 client = discord.Client()
-ts = time.gmtime()
 
 if os.path.isfile('subwaybot.db'):
     db_exists = True
@@ -31,6 +32,14 @@ conn.commit()
 @client.event
 async def on_message(message):
     global timesordered
+    ts = time.gmtime()
+    
+    c.execute('SELECT * FROM subwaybot')
+    data = c.fetchall()
+    data = str(data)
+    timesordered = int(re.search(r'\d+', data).group())
+    conn.commit()
+
     # We don't want the bot to reply to itself
     if message.author == client.user:
         return
@@ -39,120 +48,322 @@ async def on_message(message):
         return
     #Message Settings
     if message.content.startswith('!getsub italianbmt'):
-        base_title = ("**Order #",timesordered,"**")
-        base_desc = ("Order made by",message.author)
+        base_title = (f"Order #{timesordered}")
+        base_desc = ("Submitted by {message.author.mention}")
+        sql_update_query = "Update subwaybot set timesordered = " + str(timesordered + 1) + " where timesordered = " + str(timesordered)
+        c.execute(sql_update_query)
         timesordered += 1
+        conn.commit() # Save changes
+        
         embed = discord.Embed(title=base_title, description=base_desc, colour=discord.Colour(0x7a19fd))
         embed.set_author(name="SubwayBot")
         embed.set_footer(text="SubwayBot v1.1")
-        embed.add_field(name="Heres your sub, {0.author.mention}", value="", inline=False)
+        embed.add_field(name="Heres your sub!", value="\u200b", inline=False)
         embed.set_image(url="https://www.subway.com/ns/images/menu/PAK/ENG/menu-category-sandwich-italianBMT_B.jpg")
         await message.channel.send(embed=embed)
-        print("[",time.strftime("%Y-%m-%d %H:%M:%S",ts),"]",message.author," got a Italian BMT sub.")
+        print("[",time.strftime("%Y-%m-%d %H:%M:%S",ts),"]",message.author,"got a Italian BMT sub.")
 
     if message.content.startswith('!getsub bfh'):
-        msg = 'Heres your sub, {0.author.mention}. [https://order.subway.com/Images/Subway/en-us/ProductClassLink/3002.png] '.format(message)
-        await message.channel.send(msg)
-        print("[",time.strftime("%Y-%m-%d %H:%M:%S",ts),"]Someone got a Black Forest Ham sub.")
+        base_title = (f"Order #{timesordered}")
+        base_desc = ("Submitted by {message.author.mention}")
+        sql_update_query = "Update subwaybot set timesordered = " + str(timesordered + 1) + " where timesordered = " + str(timesordered)
+        c.execute(sql_update_query)
+        timesordered += 1
+        conn.commit() # Save changes
+        
+        embed = discord.Embed(title=base_title, description=base_desc, colour=discord.Colour(0x7a19fd))
+        embed.set_author(name="SubwayBot")
+        embed.set_footer(text="SubwayBot v1.1")
+        embed.add_field(name="Heres your sub!", value="\u200b", inline=False)
+        embed.set_image(url="https://order.subway.com/Images/Subway/en-us/ProductClassLink/3002.png")
+        await message.channel.send(embed=embed)
+        print("[",time.strftime("%Y-%m-%d %H:%M:%S",ts),"]",message.author,"got a Black Forest Ham sub.")
         
     if message.content.startswith('!getsub c&b'):
-        msg = 'Heres your sub, {0.author.mention}. [https://order.subway.com/Images/Subway/en-us/ProductClassLink/3004.png] '.format(message)
-        await message.channel.send(msg)
-        print("[",time.strftime("%Y-%m-%d %H:%M:%S",ts),"]Someone got a chicken and bacon ranch melt.")
+        base_title = (f"Order #{timesordered}")
+        base_desc = ("Submitted by {message.author.mention}")
+        sql_update_query = "Update subwaybot set timesordered = " + str(timesordered + 1) + " where timesordered = " + str(timesordered)
+        c.execute(sql_update_query)
+        timesordered += 1
+        conn.commit() # Save changes
+        
+        embed = discord.Embed(title=base_title, description=base_desc, colour=discord.Colour(0x7a19fd))
+        embed.set_author(name="SubwayBot")
+        embed.set_footer(text="SubwayBot v1.1")
+        embed.add_field(name="Heres your sub!", value="\u200b", inline=False)
+        embed.set_image(url="https://order.subway.com/Images/Subway/en-us/ProductClassLink/3004.png")
+        await message.channel.send(embed=embed)
+        print("[",time.strftime("%Y-%m-%d %H:%M:%S",ts),"]",message.author,"got a chicken and bacon ranch melt.")
 
     if message.content.startswith('!getsub coldcutcombo'):
-        msg = 'Heres your sub, {0.author.mention}. [https://order.subway.com/Images/Subway/en-us/ProductClassLink/3005.png] '.format(message)
-        await message.channel.send(msg)
-        print("[",time.strftime("%Y-%m-%d %H:%M:%S",ts),"]Someone got a coldcut combo.")
+        base_title = (f"Order #{timesordered}")
+        base_desc = ("Submitted by {message.author.mention}")
+        sql_update_query = "Update subwaybot set timesordered = " + str(timesordered + 1) + " where timesordered = " + str(timesordered)
+        c.execute(sql_update_query)
+        timesordered += 1
+        conn.commit() # Save changes
+        
+        embed = discord.Embed(title=base_title, description=base_desc, colour=discord.Colour(0x7a19fd))
+        embed.set_author(name="SubwayBot")
+        embed.set_footer(text="SubwayBot v1.1")
+        embed.add_field(name="Heres your sub!", value="\u200b", inline=False)
+        embed.set_image(url="https://order.subway.com/Images/Subway/en-us/ProductClassLink/3005.png")
+        await message.channel.send(embed=embed)
+        print("[",time.strftime("%Y-%m-%d %H:%M:%S",ts),"]",message.author,"got a coldcut combo.")
 
     if message.content.startswith('!getsub meatball'):
-        msg = 'Heres your sub, {0.author.mention}. [https://order.subway.com/Images/Subway/en-us/ProductClassLink/3007.png] '.format(message)
-        await message.channel.send(msg)
-        print("[",time.strftime("%Y-%m-%d %H:%M:%S",ts),"]Someone got a meatball sub.")
+        base_title = (f"Order #{timesordered}")
+        base_desc = ("Submitted by {message.author.mention}")
+        sql_update_query = "Update subwaybot set timesordered = " + str(timesordered + 1) + " where timesordered = " + str(timesordered)
+        c.execute(sql_update_query)
+        timesordered += 1
+        conn.commit() # Save changes
+        
+        embed = discord.Embed(title=base_title, description=base_desc, colour=discord.Colour(0x7a19fd))
+        embed.set_author(name="SubwayBot")
+        embed.set_footer(text="SubwayBot v1.1")
+        embed.add_field(name="Heres your sub!", value="\u200b", inline=False)
+        embed.set_image(url="https://order.subway.com/Images/Subway/en-us/ProductClassLink/3007.png")
+        await message.channel.send(embed=embed)
+        print("[",time.strftime("%Y-%m-%d %H:%M:%S",ts),"]",message.author,"got a meatball sub.")
     
     if message.content.startswith('!getsub orchicken'):
-        msg = 'Heres your sub, {0.author.mention}. [https://order.subway.com/Images/Subway/en-us/ProductClassLink/3008.png] '.format(message)
-        await message.channel.send(msg)
-        print("[",time.strftime("%Y-%m-%d %H:%M:%S",ts),"]Someone got a orchicken sub.")
+        base_title = (f"Order #{timesordered}")
+        base_desc = ("Submitted by {message.author.mention}")
+        sql_update_query = "Update subwaybot set timesordered = " + str(timesordered + 1) + " where timesordered = " + str(timesordered)
+        c.execute(sql_update_query)
+        timesordered += 1
+        conn.commit() # Save changes
+        
+        embed = discord.Embed(title=base_title, description=base_desc, colour=discord.Colour(0x7a19fd))
+        embed.set_author(name="SubwayBot")
+        embed.set_footer(text="SubwayBot v1.1")
+        embed.add_field(name="Heres your sub!", value="\u200b", inline=False)
+        embed.set_image(url="https://order.subway.com/Images/Subway/en-us/ProductClassLink/3008.png")
+        await message.channel.send(embed=embed)
+        print("[",time.strftime("%Y-%m-%d %H:%M:%S",ts),"]",message.author,"got a orchicken sub.")
 
     if message.content.startswith('!getsub roastbeef'):
-        msg = 'Heres your sub, {0.author.mention}. [https://order.subway.com/Images/Subway/en-us/ProductClassLink/3009.png] '.format(message)
-        await message.channel.send(msg)
-        print("[",time.strftime("%Y-%m-%d %H:%M:%S",ts),"]Someone got a roast beef sub.")
+        base_title = (f"Order #{timesordered}")
+        base_desc = ("Submitted by {message.author.mention}")
+        sql_update_query = "Update subwaybot set timesordered = " + str(timesordered + 1) + " where timesordered = " + str(timesordered)
+        c.execute(sql_update_query)
+        timesordered += 1
+        conn.commit() # Save changes
+        
+        embed = discord.Embed(title=base_title, description=base_desc, colour=discord.Colour(0x7a19fd))
+        embed.set_author(name="SubwayBot")
+        embed.set_footer(text="SubwayBot v1.1")
+        embed.add_field(name="Heres your sub!", value="\u200b", inline=False)
+        embed.set_image(url="https://order.subway.com/Images/Subway/en-us/ProductClassLink/3009.png")
+        await message.channel.send(embed=embed)
+        print("[",time.strftime("%Y-%m-%d %H:%M:%S",ts),"]",message.author,"got a roast beef sub.")
 
     if message.content.startswith('!getsub rschicken'):
-        msg = 'Heres your sub, {0.author.mention}. [https://order.subway.com/Images/Subway/en-us/ProductClassLink/3143.png] '.format(message)
-        await message.channel.send(msg)
-        print("[",time.strftime("%Y-%m-%d %H:%M:%S",ts),"]Someone got a rschicken sub.")
+        base_title = (f"Order #{timesordered}")
+        base_desc = ("Submitted by {message.author.mention}")
+        sql_update_query = "Update subwaybot set timesordered = " + str(timesordered + 1) + " where timesordered = " + str(timesordered)
+        c.execute(sql_update_query)
+        timesordered += 1
+        conn.commit() # Save changes
+        
+        embed = discord.Embed(title=base_title, description=base_desc, colour=discord.Colour(0x7a19fd))
+        embed.set_author(name="SubwayBot")
+        embed.set_footer(text="SubwayBot v1.1")
+        embed.add_field(name="Heres your sub!", value="\u200b", inline=False)
+        embed.set_image(url="https://order.subway.com/Images/Subway/en-us/ProductClassLink/3143.png")
+        await message.channel.send(embed=embed)
+        print("[",time.strftime("%Y-%m-%d %H:%M:%S",ts),"]",message.author,"got a rschicken sub.")
     
     if message.content.startswith('!getsub spicyitalian'):
-        msg = 'Heres your sub, {0.author.mention}. [https://order.subway.com/Images/Subway/en-us/ProductClassLink/3010.png] '.format(message)
-        await message.channel.send(msg)
-        print("[",time.strftime("%Y-%m-%d %H:%M:%S",ts),"]Someone got a spicy italian sub.")
+        base_title = (f"Order #{timesordered}")
+        base_desc = ("Submitted by {message.author.mention}")
+        sql_update_query = "Update subwaybot set timesordered = " + str(timesordered + 1) + " where timesordered = " + str(timesordered)
+        c.execute(sql_update_query)
+        timesordered += 1
+        conn.commit() # Save changes
+        
+        embed = discord.Embed(title=base_title, description=base_desc, colour=discord.Colour(0x7a19fd))
+        embed.set_author(name="SubwayBot")
+        embed.set_footer(text="SubwayBot v1.1")
+        embed.add_field(name="Heres your sub!", value="\u200b", inline=False)
+        embed.set_image(url="https://order.subway.com/Images/Subway/en-us/ProductClassLink/3010.png")
+        await message.channel.send(embed=embed)
+        print("[",time.strftime("%Y-%m-%d %H:%M:%S",ts),"]",message.author,"got a spicy italian sub.")
 
     if message.content.startswith('!getsub steak&cheese'):
-        msg = 'Heres your sub, {0.author.mention}. [https://order.subway.com/Images/Subway/en-us/ProductClassLink/3011.png] '.format(message)
-        await message.channel.send(msg)
+        base_title = (f"Order #{timesordered}")
+        base_desc = ("Submitted by {message.author.mention}")
+        sql_update_query = "Update subwaybot set timesordered = " + str(timesordered + 1) + " where timesordered = " + str(timesordered)
+        c.execute(sql_update_query)
+        timesordered += 1
+        conn.commit() # Save changes
+        
+        embed = discord.Embed(title=base_title, description=base_desc, colour=discord.Colour(0x7a19fd))
+        embed.set_author(name="SubwayBot")
+        embed.set_footer(text="SubwayBot v1.1")
+        embed.add_field(name="Heres your sub!", value="\u200b", inline=False)
+        embed.set_image(url="https://order.subway.com/Images/Subway/en-us/ProductClassLink/3011.png")
+        await message.channel.send(embed=embed)
         print("[",time.strftime("%Y-%m-%d %H:%M:%S",ts),"]{0.author.mention} got a steak and cheese sub.")
     
     if message.content.startswith('!getsub subwayclub'):
-        msg = 'Heres your sub, {0.author.mention}. [https://order.subway.com/Images/Subway/en-us/ProductClassLink/3012.png] '.format(message)
-        await message.channel.send(msg)
-        print("[",time.strftime("%Y-%m-%d %H:%M:%S",ts),"]Someone got a subway club.")
+        base_title = (f"Order #{timesordered}")
+        base_desc = ("Submitted by {message.author.mention}")
+        sql_update_query = "Update subwaybot set timesordered = " + str(timesordered + 1) + " where timesordered = " + str(timesordered)
+        c.execute(sql_update_query)
+        timesordered += 1
+        conn.commit() # Save changes
+        
+        embed = discord.Embed(title=base_title, description=base_desc, colour=discord.Colour(0x7a19fd))
+        embed.set_author(name="SubwayBot")
+        embed.set_footer(text="SubwayBot v1.1")
+        embed.add_field(name="Heres your sub!", value="\u200b", inline=False)
+        embed.set_image(url="https://order.subway.com/Images/Subway/en-us/ProductClassLink/3012.png")
+        await message.channel.send(embed=embed)
+        print("[",time.strftime("%Y-%m-%d %H:%M:%S",ts),"]",message.author,"got a subway club.")
 
     if message.content.startswith('!getsub scot'):
-        msg = 'Heres your sub, {0.author.mention}. [https://order.subway.com/Images/Subway/en-us/ProductClassLink/3015.png] '.format(message)
-        await message.channel.send(msg)
-        print("[",time.strftime("%Y-%m-%d %H:%M:%S",ts),"]Someone got a scot sub.")
+        base_title = (f"Order #{timesordered}")
+        base_desc = ("Submitted by {message.author.mention}")
+        sql_update_query = "Update subwaybot set timesordered = " + str(timesordered + 1) + " where timesordered = " + str(timesordered)
+        c.execute(sql_update_query)
+        timesordered += 1
+        conn.commit() # Save changes
+        
+        embed = discord.Embed(title=base_title, description=base_desc, colour=discord.Colour(0x7a19fd))
+        embed.set_author(name="SubwayBot")
+        embed.set_footer(text="SubwayBot v1.1")
+        embed.add_field(name="Heres your sub!", value="\u200b", inline=False)
+        embed.set_image(url="https://order.subway.com/Images/Subway/en-us/ProductClassLink/3015.png")
+        await message.channel.send(embed=embed)
+        print("[",time.strftime("%Y-%m-%d %H:%M:%S",ts),"]",message.author,"got a scot sub.")
     
     if message.content.startswith('!getsub tuna'):
-        msg = 'Heres your sub, {0.author.mention}. [https://order.subway.com/Images/Subway/en-us/ProductClassLink/3017.png] '.format(message)
-        await message.channel.send(msg)
-        print("[",time.strftime("%Y-%m-%d %H:%M:%S",ts),"]Someone got a tuna sub.(ew lol)")
+        base_title = (f"Order #{timesordered}")
+        base_desc = ("Submitted by {message.author.mention}")
+        sql_update_query = "Update subwaybot set timesordered = " + str(timesordered + 1) + " where timesordered = " + str(timesordered)
+        c.execute(sql_update_query)
+        timesordered += 1
+        conn.commit() # Save changes
+        
+        embed = discord.Embed(title=base_title, description=base_desc, colour=discord.Colour(0x7a19fd))
+        embed.set_author(name="SubwayBot")
+        embed.set_footer(text="SubwayBot v1.1")
+        embed.add_field(name="Heres your sub!", value="\u200b", inline=False)
+        embed.set_image(url="https://order.subway.com/Images/Subway/en-us/ProductClassLink/3017.png")
+        await message.channel.send(embed=embed)
+        print("[",time.strftime("%Y-%m-%d %H:%M:%S",ts),"]",message.author,"got a tuna sub.(ew lol)")
 
     if message.content.startswith('!getsub turkey'):
-        msg = 'Heres your sub, {0.author.mention}. [https://order.subway.com/Images/Subway/en-us/ProductClassLink/3018.png] '.format(message)
-        await message.channel.send(msg)
-        print("[",time.strftime("%Y-%m-%d %H:%M:%S",ts),"]Someone got a turkey breast sub.")
+        base_title = (f"Order #{timesordered}")
+        base_desc = ("Submitted by {message.author.mention}")
+        sql_update_query = "Update subwaybot set timesordered = " + str(timesordered + 1) + " where timesordered = " + str(timesordered)
+        c.execute(sql_update_query)
+        timesordered += 1
+        conn.commit() # Save changes
+        
+        embed = discord.Embed(title=base_title, description=base_desc, colour=discord.Colour(0x7a19fd))
+        embed.set_author(name="SubwayBot")
+        embed.set_footer(text="SubwayBot v1.1")
+        embed.add_field(name="Heres your sub!", value="\u200b", inline=False)
+        embed.set_image(url="https://order.subway.com/Images/Subway/en-us/ProductClassLink/3018.png")
+        await message.channel.send(embed=embed)
+        print("[",time.strftime("%Y-%m-%d %H:%M:%S",ts),"]",message.author,"got a turkey breast sub.")
 
     if message.content.startswith('!getsub veggie'):
-        msg = 'Heres your sub, {0.author.mention}. [https://order.subway.com/Images/Subway/en-us/ProductClassLink/3020.png] '.format(message)
-        await message.channel.send(msg)
-        print("[",time.strftime("%Y-%m-%d %H:%M:%S",ts),"]Someone got a veggie delight.")
+        base_title = (f"Order #{timesordered}")
+        base_desc = ("Submitted by {message.author.mention}")
+        sql_update_query = "Update subwaybot set timesordered = " + str(timesordered + 1) + " where timesordered = " + str(timesordered)
+        c.execute(sql_update_query)
+        timesordered += 1
+        conn.commit() # Save changes
+        
+        embed = discord.Embed(title=base_title, description=base_desc, colour=discord.Colour(0x7a19fd))
+        embed.set_author(name="SubwayBot")
+        embed.set_footer(text="SubwayBot v1.1")
+        embed.add_field(name="Heres your sub!", value="\u200b", inline=False)
+        embed.set_image(url="https://order.subway.com/Images/Subway/en-us/ProductClassLink/3020.png")
+        await message.channel.send(embed=embed)
+        print("[",time.strftime("%Y-%m-%d %H:%M:%S",ts),"]",message.author,"got a veggie delight.")
 
     if message.content.startswith('!getsub chipotle_cs'):
-        msg = 'Heres your sub, {0.author.mention}. [https://order.subway.com/Images/Subway/en-us/ProductClassLink/10003.png] '.format(message)
-        await message.channel.send(msg)
-        print("[",time.strftime("%Y-%m-%d %H:%M:%S",ts),"]Someone got a chipotle cheesesteak.")
+        base_title = (f"Order #{timesordered}")
+        base_desc = ("Submitted by {message.author.mention}")
+        sql_update_query = "Update subwaybot set timesordered = " + str(timesordered + 1) + " where timesordered = " + str(timesordered)
+        c.execute(sql_update_query)
+        timesordered += 1
+        conn.commit() # Save changes
+        
+        embed = discord.Embed(title=base_title, description=base_desc, colour=discord.Colour(0x7a19fd))
+        embed.set_author(name="SubwayBot")
+        embed.set_footer(text="SubwayBot v1.1")
+        embed.add_field(name="Heres your sub!", value="\u200b", inline=False)
+        embed.set_image(url="https://order.subway.com/Images/Subway/en-us/ProductClassLink/10003.png")
+        await message.channel.send(embed=embed)
+        print("[",time.strftime("%Y-%m-%d %H:%M:%S",ts),"]",message.author,"got a chipotle cheesesteak.")
 
     if message.content.startswith('!getsub pizzasub'):
-        msg = 'Heres your sub, {0.author.mention}. [https://order.subway.com/Images/Subway/en-us/ProductClassLink/3082.png] '.format(message)
-        await message.channel.send(msg)
-        print("[",time.strftime("%Y-%m-%d %H:%M:%S",ts),"]Someone got a pizza sub.")
+        base_title = (f"Order #{timesordered}")
+        base_desc = ("Submitted by {message.author.mention}")
+        sql_update_query = "Update subwaybot set timesordered = " + str(timesordered + 1) + " where timesordered = " + str(timesordered)
+        c.execute(sql_update_query)
+        timesordered += 1
+        conn.commit() # Save changes
+        
+        embed = discord.Embed(title=base_title, description=base_desc, colour=discord.Colour(0x7a19fd))
+        embed.set_author(name="SubwayBot")
+        embed.set_footer(text="SubwayBot v1.1")
+        embed.add_field(name="Heres your sub!", value="\u200b", inline=False)
+        embed.set_image(url="https://order.subway.com/Images/Subway/en-us/ProductClassLink/3082.png")
+        await message.channel.send(embed=embed)
+        print("[",time.strftime("%Y-%m-%d %H:%M:%S",ts),"]",message.author,"got a pizza sub.")
     
     if message.content.startswith('!getsub ccmelt'):
-        msg = 'Heres your sub, {0.author.mention}. [https://order.subway.com/Images/Subway/en-us/ProductClassLink/3181.png] '.format(message)
-        await message.channel.send(msg)
-        print("[",time.strftime("%Y-%m-%d %H:%M:%S",ts),"]Someone got a chicken caesar melt.")
+        base_title = (f"Order #{timesordered}")
+        base_desc = ("Submitted by {message.author.mention}")
+        sql_update_query = "Update subwaybot set timesordered = " + str(timesordered + 1) + " where timesordered = " + str(timesordered)
+        c.execute(sql_update_query)
+        timesordered += 1
+        conn.commit() # Save changes
+        
+        embed = discord.Embed(title=base_title, description=base_desc, colour=discord.Colour(0x7a19fd))
+        embed.set_author(name="SubwayBot")
+        embed.set_footer(text="SubwayBot v1.1")
+        embed.add_field(name="Heres your sub!", value="\u200b", inline=False)
+        embed.set_image(url="https://order.subway.com/Images/Subway/en-us/ProductClassLink/3181.png")
+        await message.channel.send(embed=embed)
+        print("[",time.strftime("%Y-%m-%d %H:%M:%S",ts),"]",message.author,"got a chicken caesar melt.")
     
     if message.content.startswith('!getsub italian_t'):
-        msg = 'Heres your sub, {0.author.mention}. [https://order.subway.com/Images/Subway/en-us/ProductClassLink/3092.png] '.format(message)
-        await message.channel.send(msg)
-        print("[",time.strftime("%Y-%m-%d %H:%M:%S",ts),"]Someone got a italiano turkey melt.")
+        base_title = (f"Order #{timesordered}")
+        base_desc = ("Submitted by {message.author.mention}")
+        sql_update_query = "Update subwaybot set timesordered = " + str(timesordered + 1) + " where timesordered = " + str(timesordered)
+        c.execute(sql_update_query)
+        timesordered += 1
+        conn.commit() # Save changes
+        
+        embed = discord.Embed(title=base_title, description=base_desc, colour=discord.Colour(0x7a19fd))
+        embed.set_author(name="SubwayBot")
+        embed.set_footer(text="SubwayBot v1.1")
+        embed.add_field(name="Heres your sub!", value="\u200b", inline=False)
+        embed.set_image(url="https://order.subway.com/Images/Subway/en-us/ProductClassLink/3092.png")
+        await message.channel.send(embed=embed)
+        print("[",time.strftime("%Y-%m-%d %H:%M:%S",ts),"]",message.author,"got a italiano turkey melt.")
 
-    if message.content == '!getsub':
+    if message.content.startswith('!getsub'):
         msg = 'Usage: `!getsub <sub name>`. To see a list of subs, try `!sublist`.'
         await message.channel.send(msg)
 
     if message.content.startswith('!getinvite'):
         msg = '{0.author.mention}, the invite code is https://discord.gg/WQJ7hRF'.format(message)
         await message.channel.send(msg)
-        print("[",time.strftime("%Y-%m-%d %H:%M:%S",ts),"]Someone used !getinvite.")
+        print("[",time.strftime("%Y-%m-%d %H:%M:%S",ts),"]",message.author," used !getinvite.")
 
     if message.content.startswith('!sublist'):
         embed = discord.Embed(title="**List of subs**", description="List of sandwiches to use for !getsub.", colour=discord.Colour(0x7a19fd))
         embed.set_author(name="SubwayBot")
-        embed.set_footer(text="SubwayBot v0.6")
+        embed.set_footer(text="SubwayBot v1.1")
         embed.add_field(name="Italian BMT", value="Usage: `italianbmt`", inline=False)
         embed.add_field(name="Black Forest Ham", value="Usage: `bfh`", inline=False)
         embed.add_field(name="Chicken and Bacon Ranch Melt", value="Usage: `c&b`", inline=False)
@@ -173,18 +384,18 @@ async def on_message(message):
         embed.add_field(name="Chicken Caesar Melt", value="Usage: `ccmelt`", inline=False)
 
         await message.channel.send(embed=embed)
-        print("[",time.strftime("%Y-%m-%d %H:%M:%S",ts),"]Someone used !sublist.")
+        print("[",time.strftime("%Y-%m-%d %H:%M:%S",ts),"]",message.author," used !sublist.")
     
     if message.content.startswith('!sbcmds'):
         embed = discord.Embed(title="**List of commands**", description="List of commands to use.", colour=discord.Colour(0x7a19fd))
         embed.set_author(name="SubwayBot")
-        embed.set_footer(text="SubwayBot v0.6")
-        embed.add_field(name="!getsub <sub>", value="Get yourself an official Subway sandwich.", inline=False)
+        embed.set_footer(text="SubwayBot v1.1")
+        embed.add_field(name="!getsub <sub>", value="Get yourself an somewhat-official Subway sandwich.", inline=False)
         embed.add_field(name="!sublist", value="View all possible subs to obtain.", inline=False)
         embed.add_field(name="!getinvite", value="Get an invite code to the offical SubwayBot server.", inline=False)
         embed.add_field(name="!sbcmds", value="View commands", inline=False)
         await message.channel.send(embed=embed)
-        print("[",time.strftime("%Y-%m-%d %H:%M:%S",ts),"]Someone viewed the list of commands.")
+        print("[",time.strftime("%Y-%m-%d %H:%M:%S",ts),"]",message.author," viewed the list of commands.")
 
 
 #this thing
