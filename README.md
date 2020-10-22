@@ -1,3 +1,6 @@
+# This is archived
+This was my first discord bot, and is very messy and outdated. So its archived
+
 # subway-bot
 A Discord bot, Subway themed.
 
